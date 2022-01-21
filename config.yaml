@@ -1,0 +1,7 @@
+app_base: 
+  appid: "1231241"
+  app_secret: "thisisaw"
+
+jwt_info:
+  jwt_sec: "thisisjwtsec"
+  jwt_maxage: 7 #days

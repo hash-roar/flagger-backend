@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"hash-roar/flagger-backend/routers"
 )
 
 func main() {
-	router := gin.Default()
-	
+	routers.Run()
 }
