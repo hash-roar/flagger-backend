@@ -5,3 +5,5 @@ app_base:
 jwt_info:
   jwt_sec: "thisisjwtsec"
   jwt_maxage: 7 #days
+
+dsn: "thisdsnstring"

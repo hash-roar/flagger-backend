@@ -19,6 +19,7 @@ type JwtInfo struct {
 type Conf struct {
 	AppBase `yaml:"app_base"`
 	JwtInfo `yaml:"jwt_info"`
+	Dsn     string `yaml:"dsn"`
 }
 
 var AppConfig *Conf
