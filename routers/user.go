@@ -69,7 +69,7 @@ func addUserBaseInfo(c *gin.Context) {
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "add user info ok",
+		"message": "add user info successfully",
 	})
-
 }
+
