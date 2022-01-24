@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"hash-roar/flagger-backend/dbhandlers"
-	"hash-roar/flagger-backend/models"
+	"flagger-backend/dbhandlers"
+	"flagger-backend/models"
 	"log"
 	"net/http"
 
@@ -10,8 +10,8 @@ import (
 )
 
 func addUserBaseInfo(c *gin.Context) {
-	formData := &models.FirstLoginInfo{}
-	if err := c.ShouldBindJSON(formData); err != nil {
+	formData := &models.FormUserBaseInfo{}
+	if err := c.Bind(formData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -25,14 +25,11 @@ func addUserBaseInfo(c *gin.Context) {
 		})
 		return
 	}
-	userBaseInfo := &models.UserBaseInfo{}
 	userSocialtrend := &models.UserSocialTrend{}
-	userBaseInfo.Grade = formData.Grade
-	userBaseInfo.Major = formData.Major
-	userBaseInfo.Sex = formData.Sex
+	userSocialtrend.Uid = uid
 	userSocialtrend.SocialTrend = formData.Socialtendency
 	userSocialtrend.EnvTrend = formData.Environment
-	if _, err := dbhandlers.AddUserBaseInfo(userBaseInfo); err != nil {
+	if _, err := dbhandlers.AddUserBaseInfo(uid, formData.Sex, formData.Grade, formData.Major); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "error occurs",
@@ -46,8 +43,8 @@ func addUserBaseInfo(c *gin.Context) {
 		})
 		return
 	}
-	if formData.Interestedtag != nil {
-		if err := dbhandlers.AddUserIntreTags(uid, formData.Interestedtag); err != nil {
+	if formData.InterestedTag != nil {
+		if err := dbhandlers.AddUserIntreTags(uid, formData.InterestedTag); err != nil {
 			log.Println(err)
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "error occurs",
@@ -72,4 +69,3 @@ func addUserBaseInfo(c *gin.Context) {
 		"message": "add user info successfully",
 	})
 }
-

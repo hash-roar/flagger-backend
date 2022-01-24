@@ -1,7 +1,7 @@
 package main
 
 import (
-	"hash-roar/flagger-backend/routers"
+	"flagger-backend/routers"
 )
 
 func main() {

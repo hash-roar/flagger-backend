@@ -2,7 +2,7 @@ package dbhandlers
 
 import (
 	"errors"
-	"hash-roar/flagger-backend/models"
+	"flagger-backend/models"
 	"time"
 )
 
@@ -13,9 +13,21 @@ func GetUidByOpenid(openid string) (int, error) {
 		return -1, result.Error
 	}
 	if result.RowsAffected == 0 {
-		return -1, errors.New("no such uer")
+		return 0, errors.New("no such uer")
 	}
 	return userInfo.Uid, nil
+}
+
+func AddUserLoginInfo(data *models.FormLoginInfo) error {
+	userBaseInfo := &models.UserBaseInfo{}
+	userBaseInfo.AvatarUrl = data.AvatarUrl
+	userBaseInfo.Nickname = data.Nickname
+	userBaseInfo.StudentId = data.StudentId
+	userBaseInfo.Password = data.Password
+	if err := db.Table("user_base_infos").Create(userBaseInfo).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func AddUserIntreTags(uid int, tags []string) error {

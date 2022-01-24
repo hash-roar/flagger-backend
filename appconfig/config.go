@@ -26,7 +26,7 @@ var AppConfig *Conf
 
 func init() {
 	AppConfig = new(Conf)
-	confFile, err := ioutil.ReadFile("../config.yaml")
+	confFile, err := ioutil.ReadFile("./config.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}

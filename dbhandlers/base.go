@@ -1,7 +1,8 @@
 package dbhandlers
 
 import (
-	"hash-roar/flagger-backend/appconfig"
+	"flagger-backend/appconfig"
+	"flagger-backend/models"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -17,4 +18,16 @@ func init() {
 		log.Fatal(err)
 	}
 	db = dbTemp
+	migrate()
+}
+
+func migrate() {
+	db.AutoMigrate(&models.UserBaseInfo{})
+	db.AutoMigrate(&models.UserFlaggerInfo{})
+	db.AutoMigrate(&models.UserFlagger{})
+	db.AutoMigrate(&models.Tag{})
+	db.AutoMigrate(&models.UserIntreTag{})
+	db.AutoMigrate(&models.UserSocialTrend{})
+	db.AutoMigrate(&models.UserFlagger{})
+	db.AutoMigrate(&models.FlaggerTag{})
 }

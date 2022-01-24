@@ -1,4 +1,4 @@
-module hash-roar/flagger-backend
+module flagger-backend
 
 go 1.17
 

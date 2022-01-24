@@ -5,14 +5,13 @@ import "github.com/gin-gonic/gin"
 var router = gin.Default()
 
 func init() {
-	initLogApi()
+	initLoginApi()
 }
 
-
-func initLogApi() {
-	router.GET("/login", Login)
+func initLoginApi() {
+	router.POST("/login", Login)
 }
 
 func Run() {
-	router.Run("127.0.01:8000")
+	router.Run("127.0.0.1:8000")
 }

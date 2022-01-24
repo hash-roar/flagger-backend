@@ -1,8 +1,11 @@
 package routers
 
 import (
-	"hash-roar/flagger-backend/appconfig"
+	"flagger-backend/appconfig"
+	"flagger-backend/dbhandlers"
+	"flagger-backend/models"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -15,9 +18,26 @@ type Claim struct {
 }
 
 func Login(c *gin.Context) {
-	code := c.PostForm("code")
+	formData := &models.FormLoginInfo{}
+	if err := c.Bind(formData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	openid := c.Request.Header.Get("X-WX-OPENID")
-
+	formData.Openid = openid
+	log.Println(formData)
+	if err := dbhandlers.AddUserLoginInfo(formData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"status":  200,
+		"message": "登录成功",
+	})
 }
 
 func generateToken(id string) (string, error) {

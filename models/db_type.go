@@ -5,11 +5,16 @@ import (
 )
 
 type UserBaseInfo struct {
-	Uid       int `gorm:"primaryKey"`
+	Uid       int    `gorm:"primarykey"`
+	Openid    string `gorm:"index:idx,unique"`
 	Sex       int
 	Grade     int
 	Major     int
 	AvatarUrl string
+	Nickname  string
+	SecretKey string
+	StudentId string
+	Password  string
 }
 
 type UserFlaggerInfo struct {

@@ -6,4 +6,4 @@ jwt_info:
   jwt_sec: "thisisjwtsec"
   jwt_maxage: 7 #days
 
-dsn: "thisdsnstring"
+dsn: "root:@tcp(localhost:3307)/flagger?charset=utf8&parseTime=True&loc=Local"
