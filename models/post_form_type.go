@@ -18,3 +18,13 @@ type FormLoginInfo struct {
 	AvatarUrl string `json:"avatar_url,omitempty" form:"avatar_url"`
 	Nickname  string `json:"nickname,omitempty" form:"nickname"`
 }
+type FormUserCreateFlag struct {
+	Title          string `form:"title" json:"title"`
+	Tag            string `form:"tag" json:"tag"`
+	CreatedTag     string `form:"created_tag" json:"created_tag"`
+	MaxGroupMember int    `form:"max_group_member" json:"max_group_member"`
+	JoinAuth       []int  `form:"join_auth" json:"join_auth"`
+	EndTime        int    `form:"end_time" json:"end_time"`
+	Frequency      int    `form:"frequency" json:"frequency"`
+	Announcement   string `form:"announcement" json:"announcement"`
+}

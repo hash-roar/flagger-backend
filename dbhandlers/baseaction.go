@@ -2,6 +2,7 @@ package dbhandlers
 
 import (
 	"flagger-backend/models"
+	"time"
 )
 
 func AddUserBaseInfo(uid int, sex int, grade int, major int) (int, error) {
@@ -23,7 +24,19 @@ func AddUserIntreTag(data *models.UserIntreTag) (int, error) {
 
 func AddTag(data *models.Tag) (int, error) {
 	result := db.Create(data)
-	return int(result.RowsAffected), result.Error
+	return data.Tid, result.Error
+}
+
+func AddUserFlagger(uid int, fid int) (int, error) {
+	userFlagger := &models.UserFlagger{Uid: uid, Fid: fid, FlagSum: 1, LastFlagTime: time.Now(), Status: 1, SequentialFlagTimes: 1}
+	result := db.Create(userFlagger)
+	return userFlagger.Id, result.Error
+}
+
+func GetTagByTitle(title string) (int, error) {
+	tag := &models.Tag{}
+	result := db.Where("title = ?", title).First(tag)
+	return tag.Tid, result.Error
 }
 
 func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {
@@ -33,4 +46,8 @@ func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {
 		return nil, err
 	}
 	return queryData, nil
+}
+
+func AddFlaggerTagInfo(data *models.FlaggerTag) error {
+	return db.Create(data).Error
 }

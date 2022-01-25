@@ -3,6 +3,7 @@ package dbhandlers
 import (
 	"errors"
 	"flagger-backend/models"
+	"log"
 	"time"
 )
 
@@ -24,6 +25,8 @@ func AddUserLoginInfo(data *models.FormLoginInfo) error {
 	userBaseInfo.Nickname = data.Nickname
 	userBaseInfo.StudentId = data.StudentId
 	userBaseInfo.Password = data.Password
+	userBaseInfo.Openid = data.Openid
+	log.Println(userBaseInfo)
 	if err := db.Table("user_base_infos").Create(userBaseInfo).Error; err != nil {
 		return err
 	}

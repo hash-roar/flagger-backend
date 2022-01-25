@@ -28,6 +28,6 @@ func migrate() {
 	db.AutoMigrate(&models.Tag{})
 	db.AutoMigrate(&models.UserIntreTag{})
 	db.AutoMigrate(&models.UserSocialTrend{})
-	db.AutoMigrate(&models.UserFlagger{})
+	db.AutoMigrate(&models.Flagger{})
 	db.AutoMigrate(&models.FlaggerTag{})
 }

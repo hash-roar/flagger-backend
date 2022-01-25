@@ -27,7 +27,6 @@ func Login(c *gin.Context) {
 	}
 	openid := c.Request.Header.Get("X-WX-OPENID")
 	formData.Openid = openid
-	log.Println(formData)
 	if err := dbhandlers.AddUserLoginInfo(formData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),

@@ -32,14 +32,14 @@ func addUserBaseInfo(c *gin.Context) {
 	if _, err := dbhandlers.AddUserBaseInfo(uid, formData.Sex, formData.Grade, formData.Major); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "error occurs",
+			"error": "服务端错误",
 		})
 		return
 	}
 	if _, err := dbhandlers.AddUserSocailTrend(userSocialtrend); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "error occurs",
+			"error": "服务端错误",
 		})
 		return
 	}
@@ -47,25 +47,25 @@ func addUserBaseInfo(c *gin.Context) {
 		if err := dbhandlers.AddUserIntreTags(uid, formData.InterestedTag); err != nil {
 			log.Println(err)
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "error occurs",
+				"error": "服务端错误",
 			})
 			return
 		}
 	}
 	if formData.CreatedTag != "" {
-		tagTemp := models.Tag{TiTle: formData.CreatedTag, CreatorId: uid}
-		_, err := dbhandlers.AddTag(&tagTemp)
-		userIntreTagTemp := models.UserIntreTag{Uid: uid, TagTitle: formData.CreatedTag}
+		tagTemp := models.Tag{Title: formData.CreatedTag, CreatorId: uid}
+		tid, err := dbhandlers.AddTag(&tagTemp)
+		userIntreTagTemp := models.UserIntreTag{Uid: uid, TagTitle: formData.CreatedTag, Tid: tid}
 		_, err = dbhandlers.AddUserIntreTag(&userIntreTagTemp)
 		if err != nil {
 			log.Println(err)
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "error occurs",
+				"error": "服务端错误",
 			})
 			return
 		}
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message": "add user info successfully",
+		"message": "添加用户成功",
 	})
 }
