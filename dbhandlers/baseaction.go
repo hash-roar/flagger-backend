@@ -1,8 +1,11 @@
 package dbhandlers
 
 import (
+	"errors"
 	"flagger-backend/models"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func AddUserBaseInfo(uid int, sex int, grade int, major int) (int, error) {
@@ -18,13 +21,13 @@ func AddUserSocailTrend(data *models.UserSocialTrend) (int, error) {
 }
 
 func AddUserIntreTag(data *models.UserIntreTag) (int, error) {
+	tag := &models.Tag{}
+	if db.Where("title = ?", data.TagTitle).First(tag).RowsAffected == 0 {
+		return 0, errors.New("no such tag")
+	}
+	data.Tid = tag.Tid
 	result := db.Create(data)
 	return int(result.RowsAffected), result.Error
-}
-
-func AddTag(data *models.Tag) (int, error) {
-	result := db.Create(data)
-	return data.Tid, result.Error
 }
 
 func AddUserFlagger(uid int, fid int) (int, error) {
@@ -33,10 +36,24 @@ func AddUserFlagger(uid int, fid int) (int, error) {
 	return userFlagger.Id, result.Error
 }
 
+func AddFlaggerTotalSum(fid int) error {
+	return db.Table("flaggers").
+		Where("fid = ?", fid).
+		Update("total_flags", gorm.Expr("total_flags + ?", 1)).Error
+}
+
 func GetTagByTitle(title string) (int, error) {
 	tag := &models.Tag{}
 	result := db.Where("title = ?", title).First(tag)
 	return tag.Tid, result.Error
+}
+
+func GetAllFlaggers(uid int) ([]models.Flagger, error) {
+	var queryData []models.Flagger
+	if err := db.Find(&queryData).Error; err != nil {
+		return nil, err
+	}
+	return queryData, nil
 }
 
 func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {
@@ -50,4 +67,35 @@ func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {
 
 func AddFlaggerTagInfo(data *models.FlaggerTag) error {
 	return db.Create(data).Error
+}
+
+func AddTag(data *models.Tag) (int, error) {
+	tag := &models.Tag{}
+	if db.Where("title = ?", data.Title).First(tag).RowsAffected == 0 {
+		result := db.Create(data)
+		return data.Tid, result.Error
+	}
+	return tag.Tid, nil
+}
+
+func GetTagTitleByFid(fid int) (string, error) {
+	type queryStruct struct {
+		Title string
+	}
+	tempQueryData := &queryStruct{}
+	err := db.Table("flagger_tags").
+		Joins("left join tags on flagger_tags.tid = tags.tid").
+		Where("flagger_tags.fid").
+		Select("tags.tid").
+		First(tempQueryData).Error
+	if err != nil {
+		return "", err
+	}
+	return tempQueryData.Title, nil
+}
+
+func GetAllTags() ([]models.Tag, error) {
+	var allTags []models.Tag
+	err := db.Limit(10).Find(&allTags).Error
+	return allTags, err
 }

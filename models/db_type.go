@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type UserBaseInfo struct {
@@ -42,8 +44,8 @@ type UserIntreTag struct {
 
 type UserSocialTrend struct {
 	Uid         int `gorm:"primaryKey"`
-	EnvTrend    int
-	SocialTrend int
+	EnvTrend    uint64
+	SocialTrend uint64
 }
 
 type FlaggerTag struct {
@@ -69,6 +71,7 @@ type Flagger struct {
 	JoinAuth      uint64 `json:"join_auth,omitempty"`
 	ShouldFlagSum int
 	EndTime       time.Time `json:"end_time,omitempty"`
+	CreatorId     int
 }
 
 type Tag struct {
@@ -76,4 +79,10 @@ type Tag struct {
 	Title       string `json:"title,omitempty"`
 	Description string `json:"description,omitempty"`
 	CreatorId   int    `json:"creator_id,omitempty"`
+}
+
+type UserHistory struct {
+	gorm.Model
+	Uid int
+	Fid int
 }

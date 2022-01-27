@@ -1,0 +1,14 @@
+"filename", "language", "Go", "comment", "blank", "total"
+"d:\working\flagger-backend\dbhandlers\baseaction.go", "Go", 20, 0, 5, 25
+"d:\working\flagger-backend\dbhandlers\flaggeraction.go", "Go", 91, 0, 3, 94
+"d:\working\flagger-backend\dbhandlers\useraction.go", "Go", 3, 0, 0, 3
+"d:\working\flagger-backend\models\db_query_type.go", "Go", 1, 0, 0, 1
+"d:\working\flagger-backend\models\db_type.go", "Go", 2, 0, 0, 2
+"d:\working\flagger-backend\models\post_form_type.go", "Go", 1, 0, 0, 1
+"d:\working\flagger-backend\models\return_data_type.go", "Go", 1, 0, -1, 0
+"d:\working\flagger-backend\routers\auth.go", "Go", -1, 0, 0, -1
+"d:\working\flagger-backend\routers\flagger.go", "Go", 163, 0, 4, 167
+"d:\working\flagger-backend\routers\router.go", "Go", 13, 0, 1, 14
+"d:\working\flagger-backend\tools\flag_join_auth_test.go", "Go", 16, 0, 5, 21
+"d:\working\flagger-backend\tools\time.go", "Go", 5, 0, 1, 6
+"Total", "-", 315, 0, 18, 333

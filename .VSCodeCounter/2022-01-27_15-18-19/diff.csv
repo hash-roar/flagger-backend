@@ -1,0 +1,11 @@
+"filename", "language", "Go", "comment", "blank", "total"
+"d:\working\flagger-backend\dbhandlers\baseaction.go", "Go", 22, 0, 2, 24
+"d:\working\flagger-backend\dbhandlers\flaggeraction.go", "Go", 7, 0, 4, 11
+"d:\working\flagger-backend\dbhandlers\useraction.go", "Go", 84, 0, 7, 91
+"d:\working\flagger-backend\models\db_query_type.go", "Go", 0, 0, 1, 1
+"d:\working\flagger-backend\models\db_type.go", "Go", 6, 0, 2, 8
+"d:\working\flagger-backend\models\return_data_type.go", "Go", 32, 0, 4, 36
+"d:\working\flagger-backend\routers\flagger.go", "Go", 116, 1, 4, 121
+"d:\working\flagger-backend\routers\user.go", "Go", 20, 0, 3, 23
+"d:\working\flagger-backend\tools\array_to_num.go", "Go", 20, 0, 4, 24
+"Total", "-", 307, 1, 31, 339

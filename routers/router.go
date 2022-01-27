@@ -17,11 +17,16 @@ func init() {
 
 func initLoginApi() {
 	router.POST("/login", Login)
+	router.GET("/isregistered", isFirstLogin)
+	router.POST("/add-student-id", addStudentId)
 	router.POST("/addinfo", addUserBaseInfo)
+	router.GET("/get-tags", GetAllTags)
 }
 func initFlagApi() {
 	router.POST("/create-flag", userCreateFlag)
 	router.GET("/doing-flag", doingFlag)
+	router.GET("/get-doing-flag", getUserDoingFlagger)
+	router.GET("/get-finished-flag", getUserFinishedFlagger)
 }
 
 func Run() {

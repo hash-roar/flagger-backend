@@ -39,6 +39,35 @@ func Login(c *gin.Context) {
 	})
 }
 
+func addStudentId(c *gin.Context) {
+	type formStruct struct {
+		StudentId string `json:"student_id"`
+		Password  string `json:"password"`
+	}
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	formData := &formStruct{}
+	c.Bind(formData)
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	err = dbhandlers.AddStudentId(uid, formData.StudentId, formData.Password)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "添加成功",
+	})
+}
+
 func generateToken(id string) (string, error) {
 	// maxage := appconfig.AppConfig.MaxAge
 	claim := &Claim{

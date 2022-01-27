@@ -23,3 +23,9 @@ func IsYesterday(t time.Time) bool {
 	}
 	return false
 }
+
+func GetTodayStartTime() time.Time {
+	timeNow := time.Now()
+	t_zero := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 0, 0, 0, 0, time.Local)
+	return t_zero
+}
