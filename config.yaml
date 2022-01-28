@@ -1,5 +1,5 @@
 app_base: 
-  appid: "	wx6da0ac0db0ae0bfa"
+  appid: "wx6da0ac0db0ae0bfa"
   app_secret: ""
 
 jwt_info:
@@ -10,6 +10,6 @@ dsn: "root:@tcp(localhost:3307)/flagger?charset=utf8&parseTime=True&loc=Local"
 
 db: 
   user: root
-  password: 
-  host: localhost:3307
+  password: intoflagger1@
+  host: 10.0.224.16:3306
   dbname: flagger
