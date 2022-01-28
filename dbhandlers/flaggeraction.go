@@ -5,6 +5,8 @@ import (
 	"flagger-backend/models"
 	"flagger-backend/tools"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func DoingFlag(uid int, fid int) error {
@@ -34,7 +36,8 @@ func GetUserDoingFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 		Select("user_flaggers.flag_sum,user_flaggers.last_flag_time,flaggers.id,flaggers.should_flag_sum,flaggers.title").
 		Joins("left join flaggers on user_flaggers.fid = flaggers.id").
 		Where("user_flaggers.uid = ?", uid).
-		Where("user_flaggers.last_flag_time ").
+		Where("user_flaggers.last_flag_time < ?", tools.GetTodayStartTime()).
+		Where("user_flaggers.status = ?", 1).
 		Find(&queryData)
 	if result.Error != nil {
 		return nil, result.Error
@@ -51,6 +54,7 @@ func GetFinishedFlaggerUserInfo(fid int) (flagedAvatarUrl []string, hadFlagedNum
 		Select("user_base_infos.avatar_url").
 		Joins("left join user_base_infos on user_flaggers.uid = user_base_infos.uid").
 		Where("user_flaggers.fid = ?", fid).
+		Where("user_flaggers.status = ?", 1).
 		Where("user_flaggers.last_flag_time  BETWEEN ? AND ?", tools.GetTodayStartTime(), time.Now()).
 		Find(&queryData).Error
 	hadFlagedNum = len(queryData)
@@ -87,27 +91,41 @@ func UserCreateFlag(data *models.FormUserCreateFlag) (int, error) {
 	flaggerTemp.Title = data.Title
 	flaggerTemp.EndTime = time.Now().AddDate(0, 0, data.EndTime)
 	flaggerTemp.ShouldFlagSum = data.EndTime
+	flaggerTemp.CreatorId = data.CreatorId
 
 	result := db.Table("flaggers").Create(flaggerTemp)
 	return flaggerTemp.Id, result.Error
 }
 
 func JoinFlagger(uid int, fid int) error {
-	type queryStruct struct {
-		JoinAuth uint64
-	}
+	// type queryStruct struct {
+	// 	JoinAuth uint64
+	// }
 	type queryStruct2 struct {
 		Grade int
 	}
-	tempQueryStruct := &queryStruct{}
+	// tempQueryStruct := &queryStruct{}
+	if db.Where("uid = ? AND fid = ?", uid, fid).
+		Find(&models.UserFlagger{}).RowsAffected != 0 {
+		return nil
+	}
+	flagger := &models.Flagger{}
 	tempQueryStruct2 := &queryStruct2{}
-	err := db.Table("flaggers").Select("join_auth").First(tempQueryStruct).Error
+	err := db.Table("flaggers").
+		Where("id = ?", fid).
+		First(flagger).Error
+	if err != nil {
+		return err
+	}
 	err = db.Table("user_base_infos").Select("grade").First(tempQueryStruct2).Error
-	if !tools.IsAuthorized(tempQueryStruct2.Grade, tempQueryStruct.JoinAuth) {
+	if err != nil {
+		return err
+	}
+	if !tools.IsAuthorized(tempQueryStruct2.Grade, flagger.JoinAuth) {
 		return errors.New("没有权限")
 	}
 	userFlagger := &models.
-		UserFlagger{Uid: uid, Fid: fid, FlagSum: 1, SequentialFlagTimes: 1, LastFlagTime: time.Now()}
+		UserFlagger{Uid: uid, Fid: fid, FlagSum: 1, SequentialFlagTimes: 1, LastFlagTime: time.Now(), Status: 1}
 	err = db.Create(userFlagger).Error
 	err = AddFlaggerTotalSum(fid)
 	return err
@@ -137,9 +155,12 @@ func AbandonFlag(uid int, fid int) error {
 		}
 	} else {
 		if err = db.Table("user_flaggers").
-			Where("fid = ?", fid).Delete(&models.UserFlagger{}).Error; err != nil {
+			Where("fid = ? AND uid = ?", fid, uid).Delete(&models.UserFlagger{}).Error; err != nil {
 			return err
 		}
+	}
+	if err = SubUserCredence(uid); err != nil {
+		return err
 	}
 	return nil
 }
@@ -153,4 +174,16 @@ func SearchFlagger(keyWord string) (result []models.Flagger, err error) {
 	return
 }
 
+func SubUserCredence(uid int) error {
+	return db.Table("user_flagger_infos").
+		Where("uid = ?", uid).
+		Update("credence_value", gorm.Expr("credence_value - ?", 1)).Error
+}
 
+func GetUserHistory(uid int) (result []models.Flagger, err error) {
+	err = db.Model(&models.Flagger{}).
+		Joins("left join user_flaggers on user_flaggers.fid = flaggers.id").
+		Where("user_flaggers.uid = ?", uid).
+		Find(&result).Error
+	return
+}

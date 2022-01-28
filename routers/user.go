@@ -131,3 +131,60 @@ func isFirstLogin(c *gin.Context) {
 		})
 	}
 }
+
+func GetUserHistory(c *gin.Context) {
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+	var returnData []models.FindFlagger
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	allFlaggers, err := dbhandlers.GetUserHistory(uid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	for _, v := range allFlaggers {
+		tempFindFlagger := &models.FindFlagger{}
+		tag, err := dbhandlers.GetTagTitleByFid(v.Id)
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "服务端错误",
+			})
+			return
+		}
+		tempFindFlagger.Fid = v.Id
+		tempFindFlagger.TagTitle = tag
+		tempFindFlagger.FlaggerTitle = v.Title
+		tempFindFlagger.ShouldFlagSum = v.ShouldFlagSum
+		tempFindFlagger.Announcement = v.Announcement
+		tempFindFlagger.IsMember = dbhandlers.HasJoinedFlagger(uid, v.Id)
+		flaggerMemberInfo, err1 := dbhandlers.GetFlaggerMemberInfo(v.Id)
+		if err1 != nil {
+			log.Println(err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "服务端错误",
+			})
+			return
+		}
+		for _, memberInfo := range flaggerMemberInfo {
+			if memberInfo.Uid == v.CreatorId {
+				memberInfo.IsAdmin = true
+			} else {
+				memberInfo.IsAdmin = false
+			}
+		}
+		tempFindFlagger.FlaggerMember = flaggerMemberInfo
+		returnData = append(returnData, *tempFindFlagger)
+	}
+	c.JSON(http.StatusOK, returnData)
+
+}

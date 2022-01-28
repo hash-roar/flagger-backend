@@ -1,7 +1,6 @@
 package dbhandlers
 
 import (
-	"errors"
 	"flagger-backend/models"
 	"time"
 
@@ -23,7 +22,10 @@ func AddUserSocailTrend(data *models.UserSocialTrend) (int, error) {
 func AddUserIntreTag(data *models.UserIntreTag) (int, error) {
 	tag := &models.Tag{}
 	if db.Where("title = ?", data.TagTitle).First(tag).RowsAffected == 0 {
-		return 0, errors.New("no such tag")
+		tag.Title = data.TagTitle
+		if err := db.Create(tag).Error; err != nil {
+			return 0, err
+		}
 	}
 	data.Tid = tag.Tid
 	result := db.Create(data)
@@ -38,7 +40,7 @@ func AddUserFlagger(uid int, fid int) (int, error) {
 
 func AddFlaggerTotalSum(fid int) error {
 	return db.Table("flaggers").
-		Where("fid = ?", fid).
+		Where("id = ?", fid).
 		Update("total_flags", gorm.Expr("total_flags + ?", 1)).Error
 }
 
@@ -83,10 +85,10 @@ func GetTagTitleByFid(fid int) (string, error) {
 		Title string
 	}
 	tempQueryData := &queryStruct{}
-	err := db.Table("flagger_tags").
-		Joins("left join tags on flagger_tags.tid = tags.tid").
-		Where("flagger_tags.fid").
-		Select("tags.tid").
+	err := db.Table("tags").
+		Joins("left join flagger_tags  on flagger_tags.tid = tags.tid").
+		Where("flagger_tags.fid = ?", fid).
+		Select("tags.title").
 		First(tempQueryData).Error
 	if err != nil {
 		return "", err

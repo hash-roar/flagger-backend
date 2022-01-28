@@ -33,8 +33,16 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	tokenStr, err := generateToken(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
-		"status":  200,
+		"token":   tokenStr,
 		"message": "登录成功",
 	})
 }
@@ -68,6 +76,30 @@ func addStudentId(c *gin.Context) {
 	})
 }
 
+func getToken(c *gin.Context) {
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	_, err := dbhandlers.GetUidByOpenid(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	tokenStr, err := generateToken(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"token": tokenStr,
+	})
+
+}
+
 func generateToken(id string) (string, error) {
 	// maxage := appconfig.AppConfig.MaxAge
 	claim := &Claim{
@@ -77,17 +109,20 @@ func generateToken(id string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
-	return token.SignedString(appconfig.AppConfig.JwtSec)
+	return token.SignedString([]byte(appconfig.AppConfig.JwtSec))
 }
 
 func authToken(tokenStr string) (openid string, ok bool) {
 	claim := &Claim{}
 	token, err := jwt.ParseWithClaims(tokenStr, claim, func(t *jwt.Token) (interface{}, error) {
-		return appconfig.AppConfig.JwtSec, nil
+		return []byte(appconfig.AppConfig.JwtSec), nil
 	})
 	if err != nil || !token.Valid {
 		log.Println(err)
 		return "", false
 	}
+	// if claim.ExpiresAt {
+
+	// }
 	return claim.Openid, true
 }

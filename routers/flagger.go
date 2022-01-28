@@ -97,7 +97,7 @@ func getUserFinishedFlagger(c *gin.Context) {
 
 func doingFlag(c *gin.Context) {
 	openid := c.Request.Header.Get("X-WX-OPENID")
-	fid, _ := strconv.Atoi(c.PostForm("fid"))
+	fid := int(getJsonParam(c, "fid").(float64))
 	uid, err := dbhandlers.GetUidByOpenid(openid)
 	if err != nil {
 		c.JSON(http.StatusForbidden, gin.H{
@@ -119,7 +119,7 @@ func doingFlag(c *gin.Context) {
 
 func abandonFlag(c *gin.Context) {
 	openid := c.Request.Header.Get("X-WX-OPENID")
-	fid, _ := strconv.Atoi(c.PostForm("fid"))
+	fid := int(getJsonParam(c, "fid").(float64))
 	uid, err := dbhandlers.GetUidByOpenid(openid)
 	if err != nil {
 		log.Println(err)
@@ -205,7 +205,14 @@ func userCreateFlag(c *gin.Context) {
 
 func joinFlagGroup(c *gin.Context) {
 	openid := c.Request.Header.Get("X-WX-OPENID")
-	fid, _ := strconv.Atoi(c.PostForm("fid"))
+
+	// type formStruct struct {
+	// 	Fid int `json:"fid" form:"fid"`
+	// }
+	// formData := &formStruct{}
+	// c.Bind(formData)
+	fid := getJsonParam(c, "fid").(float64)
+
 	uid, err := dbhandlers.GetUidByOpenid(openid)
 	if err != nil {
 		c.JSON(http.StatusForbidden, gin.H{
@@ -213,13 +220,16 @@ func joinFlagGroup(c *gin.Context) {
 		})
 		return
 	}
-	if err = dbhandlers.JoinFlagger(uid, fid); err != nil {
+	if err = dbhandlers.JoinFlagger(uid, int(fid)); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{
 			"error": "服务端错误",
 		})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "加入成功",
+	})
 }
 
 func MoreFlagger(c *gin.Context) {
@@ -273,6 +283,7 @@ func MoreFlagger(c *gin.Context) {
 				memberInfo.IsAdmin = false
 			}
 		}
+		tempFindFlagger.FlaggerMember = flaggerMemberInfo
 		returnData = append(returnData, *tempFindFlagger)
 	}
 	c.JSON(http.StatusOK, returnData)
@@ -304,7 +315,7 @@ func GetTags(c *gin.Context) {
 func SearchFlagger(c *gin.Context) {
 	openid := c.Request.Header.Get("X-WX-OPENID")
 	uid, err := dbhandlers.GetUidByOpenid(openid)
-	keyWord := c.PostForm("key_word")
+	keyWord := getJsonParam(c, "key_word").(string)
 	var returnData []models.FindFlagger
 	if err != nil {
 		log.Println(err)
@@ -352,6 +363,7 @@ func SearchFlagger(c *gin.Context) {
 				memberInfo.IsAdmin = false
 			}
 		}
+		tempFindFlagger.FlaggerMember = flaggerMemberInfo
 		returnData = append(returnData, *tempFindFlagger)
 	}
 	c.JSON(http.StatusOK, returnData)
@@ -371,4 +383,10 @@ func GetAllTags(c *gin.Context) {
 		tagStr = append(tagStr, v.Title)
 	}
 	c.JSON(http.StatusOK, tagStr)
+}
+
+func getJsonParam(c *gin.Context, key string) (result interface{}) {
+	vMaps := make(map[string]interface{}, 0)
+	c.BindJSON(&vMaps)
+	return vMaps[key]
 }

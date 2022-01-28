@@ -20,9 +20,9 @@ type UserBaseInfo struct {
 }
 
 type UserFlaggerInfo struct {
-	Uid             int `gorm:"primaryKey"`
-	CredenceValue   int
-	ReputationValue int
+	Uid             int `gorm:"primaryKey" json:"uid"`
+	CredenceValue   int `json:"credence_value"`
+	ReputationValue int `json:"reputation_value"`
 }
 
 type UserFlagger struct {

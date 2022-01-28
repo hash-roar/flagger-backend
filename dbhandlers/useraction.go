@@ -29,6 +29,11 @@ func AddUserLoginInfo(data *models.FormLoginInfo) error {
 	if err := db.Table("user_base_infos").Create(userBaseInfo).Error; err != nil {
 		return err
 	}
+	if err := db.Create(&models.UserFlaggerInfo{
+		Uid: userBaseInfo.Uid, CredenceValue: 100, ReputationValue: 0}).
+		Error; err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -61,7 +66,7 @@ func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 	err := db.Table("user_flaggers").
 		Joins("left join user_base_infos on user_flaggers.uid = user_base_infos.uid").
 		Where("user_flaggers.fid = ?", fid).
-		Select("user_base_infos.avatar_url", "user_base_infos.nickname", "user_base_infos.flag_sum", "user_base_infos.uid").
+		Select("user_base_infos.avatar_url", "user_base_infos.nickname", "user_flaggers.flag_sum", "user_base_infos.uid").
 		Find(&queryData).Error
 	if err != nil {
 		return nil, err
@@ -157,4 +162,10 @@ func IsRegistered(openid string) bool {
 	}
 	return true
 
+}
+
+func GetFlaggerUserNum(fid int) (int, error) {
+	var userFlaggers []models.UserFlagger
+	result := db.Where("fid = ?", fid).Find(&userFlaggers)
+	return int(result.RowsAffected), result.Error
 }
