@@ -1,6 +1,7 @@
 package appconfig
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -16,10 +17,17 @@ type JwtInfo struct {
 	MaxAge uint   `yaml:"jwt_maxage"`
 }
 
+type DB struct {
+	User string `yaml:"user"`
+	Host string `yaml:"host"`
+	Sec  string `yaml:"sec"`
+}
+
 type Conf struct {
 	AppBase `yaml:"app_base"`
 	JwtInfo `yaml:"jwt_info"`
 	Dsn     string `yaml:"dsn"`
+	DB
 }
 
 var AppConfig *Conf
@@ -33,4 +41,5 @@ func init() {
 	if err = yaml.Unmarshal(confFile, AppConfig); err != nil {
 		log.Fatal(err)
 	}
+	AppConfig.Dsn = fmt.Sprintf("")
 }

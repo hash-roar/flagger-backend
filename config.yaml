@@ -1,9 +1,9 @@
 app_base: 
-  appid: "1231241"
-  app_secret: "thisisaw"
+  appid: "	wx6da0ac0db0ae0bfa"
+  app_secret: ""
 
 jwt_info:
-  jwt_sec: "thisisjwtsec"
+  jwt_sec: "allthingscomfrom2022winter"
   jwt_maxage: 7 #days
 
 dsn: "root:@tcp(localhost:3307)/flagger?charset=utf8&parseTime=True&loc=Local"
