@@ -41,8 +41,17 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"token":   tokenStr,
+		"uid":     uid,
 		"message": "登录成功",
 	})
 }
@@ -78,7 +87,7 @@ func addStudentId(c *gin.Context) {
 
 func getToken(c *gin.Context) {
 	openid := c.Request.Header.Get("X-WX-OPENID")
-	_, err := dbhandlers.GetUidByOpenid(openid)
+	uid, err := dbhandlers.GetUidByOpenid(openid)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{
@@ -96,6 +105,7 @@ func getToken(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"token": tokenStr,
+		"uid":   uid,
 	})
 
 }
