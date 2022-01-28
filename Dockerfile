@@ -1,21 +1,25 @@
 FROM golang:1.13 as builder
 
+ENV GO111MODULE=on \
+    GOPROXY=https://goproxy.cn,direct
+
 RUN mkdir /app
 
-ADD . /app
+COPY . /app
 
 WORKDIR /app
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main .
 
 
-FROM alpine:latest
+FROM  centos:latest
 
-run mkdir /app
 
 WORKDIR /app
 
 COPY --from=builder /app/main .
+
+COPY --from=builder /app/config.yaml .
 
 CMD ["/app/main"]
 
