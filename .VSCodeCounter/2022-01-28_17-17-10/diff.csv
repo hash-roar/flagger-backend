@@ -1,0 +1,10 @@
+"filename", "language", "Go", "comment", "blank", "total"
+"d:\working\flagger-backend\dbhandlers\baseaction.go", "Go", 17, 0, 1, 18
+"d:\working\flagger-backend\dbhandlers\flaggeraction.go", "Go", 28, 4, 1, 33
+"d:\working\flagger-backend\dbhandlers\useraction.go", "Go", 8, 0, 1, 9
+"d:\working\flagger-backend\routers\auth.go", "Go", 34, 2, 3, 39
+"d:\working\flagger-backend\routers\flagger.go", "Go", 25, 5, 4, 34
+"d:\working\flagger-backend\routers\router.go", "Go", 29, 3, 4, 36
+"d:\working\flagger-backend\routers\user.go", "Go", 55, 0, 2, 57
+"d:\working\flagger-backend\tools\flag_join_auth.go", "Go", 19, 0, 1, 20
+"Total", "-", 215, 14, 17, 246

@@ -101,3 +101,9 @@ func GetAllTags() ([]models.Tag, error) {
 	err := db.Limit(10).Find(&allTags).Error
 	return allTags, err
 }
+
+func GetFlaggerByFid(fid int) (*models.Flagger, error) {
+	flagger := &models.Flagger{}
+	err := db.Where("id = ?", fid).First(flagger).Error
+	return flagger, err
+}

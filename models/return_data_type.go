@@ -27,6 +27,26 @@ type FindFlagger struct {
 	FlaggerMember []FlaggerGroupMemberInfo
 }
 
+type FlaggerGroupMemberInfoPlus struct {
+	Uid                int      `json:"uid"`
+	AvatarUrl          string   `json:"avatar_url"`
+	Nickname           string   `json:"nickname"`
+	IsAdmin            bool     `json:"is_admin"`
+	FlagSum            int      `json:"flag_sum"`
+	UserIntreTag       []string `json:"user_intre_tag"`
+	SequentialFlagTime int      `json:"sequential_flag_time"`
+}
+
+type FlaggerInfo struct {
+	Fid           int
+	FlaggerTitle  string
+	TagTitle      string
+	Announcement  string
+	IsMember      bool
+	ShouldFlagSum int
+	FlaggerMember []FlaggerGroupMemberInfoPlus
+}
+
 type ReturnTagsInfo struct {
 	UserIntreTag []string
 	AllTags      []string

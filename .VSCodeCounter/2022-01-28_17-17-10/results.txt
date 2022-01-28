@@ -1,0 +1,55 @@
+Date : 2022-01-28 17:17:10
+Directory : d:\working\flagger-backend
+Total : 22 files,  1545 codes, 24 comments, 161 blanks, all 1730 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Go               |         18 |      1,449 |         24 |        155 |      1,628 |
+| Go Checksum File |          1 |         63 |          0 |          1 |         64 |
+| Go Module File   |          1 |         25 |          0 |          3 |         28 |
+| YAML             |          1 |          7 |          0 |          2 |          9 |
+| Ignore           |          1 |          1 |          0 |          0 |          1 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                    | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                       |         22 |      1,545 |         24 |        161 |      1,730 |
+| appconfig                                               |          1 |         30 |          0 |          7 |         37 |
+| dbhandlers                                              |          4 |        442 |          6 |         52 |        500 |
+| models                                                  |          4 |        150 |          6 |         25 |        181 |
+| routers                                                 |          4 |        721 |         12 |         49 |        782 |
+| tools                                                   |          4 |         99 |          0 |         19 |        118 |
++---------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                | language         | code       | comment    | blank      | total      |
++---------------------------------------------------------+------------------+------------+------------+------------+------------+
+| d:\working\flagger-backend\.dockerignore                | Ignore           |          1 |          0 |          0 |          1 |
+| d:\working\flagger-backend\appconfig\config.go          | Go               |         30 |          0 |          7 |         37 |
+| d:\working\flagger-backend\config.yaml                  | YAML             |          7 |          0 |          2 |          9 |
+| d:\working\flagger-backend\dbhandlers\base.go           | Go               |         28 |          0 |          6 |         34 |
+| d:\working\flagger-backend\dbhandlers\baseaction.go     | Go               |         89 |          0 |         15 |        104 |
+| d:\working\flagger-backend\dbhandlers\flaggeraction.go  | Go               |        171 |          4 |         15 |        190 |
+| d:\working\flagger-backend\dbhandlers\useraction.go     | Go               |        154 |          2 |         16 |        172 |
+| d:\working\flagger-backend\go.mod                       | Go Module File   |         25 |          0 |          3 |         28 |
+| d:\working\flagger-backend\go.sum                       | Go Checksum File |         63 |          0 |          1 |         64 |
+| d:\working\flagger-backend\main.go                      | Go               |          7 |          0 |          3 |         10 |
+| d:\working\flagger-backend\models\db_query_type.go      | Go               |          9 |          0 |          4 |         13 |
+| d:\working\flagger-backend\models\db_type.go            | Go               |         74 |          3 |         12 |         89 |
+| d:\working\flagger-backend\models\post_form_type.go     | Go               |         27 |          2 |          3 |         32 |
+| d:\working\flagger-backend\models\return_data_type.go   | Go               |         40 |          1 |          6 |         47 |
+| d:\working\flagger-backend\routers\auth.go              | Go               |        115 |          3 |         11 |        129 |
+| d:\working\flagger-backend\routers\flagger.go           | Go               |        368 |          6 |         19 |        393 |
+| d:\working\flagger-backend\routers\router.go            | Go               |         55 |          3 |         11 |         69 |
+| d:\working\flagger-backend\routers\user.go              | Go               |        183 |          0 |          8 |        191 |
+| d:\working\flagger-backend\tools\array_to_num.go        | Go               |         20 |          0 |          4 |         24 |
+| d:\working\flagger-backend\tools\flag_join_auth.go      | Go               |         36 |          0 |          5 |         41 |
+| d:\working\flagger-backend\tools\flag_join_auth_test.go | Go               |         16 |          0 |          5 |         21 |
+| d:\working\flagger-backend\tools\time.go                | Go               |         27 |          0 |          5 |         32 |
+| Total                                                   |                  |      1,545 |         24 |        161 |      1,730 |
++---------------------------------------------------------+------------------+------------+------------+------------+------------+

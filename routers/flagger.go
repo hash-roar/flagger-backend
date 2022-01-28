@@ -390,3 +390,62 @@ func getJsonParam(c *gin.Context, key string) (result interface{}) {
 	c.BindJSON(&vMaps)
 	return vMaps[key]
 }
+
+func getFlagInfoByFid(c *gin.Context) {
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	// fid, _ := strconv.Atoi(c.PostForm("fid"))
+	fid := int(getJsonParam(c, "fid").(float64))
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+
+	returnData := models.FlaggerInfo{}
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	flagger, err := dbhandlers.GetFlaggerByFid(fid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	tempFindFlagger := &models.FlaggerInfo{}
+	tag, err := dbhandlers.GetTagTitleByFid(flagger.Id)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	tempFindFlagger.Fid = flagger.Id
+	tempFindFlagger.TagTitle = tag
+	tempFindFlagger.FlaggerTitle = flagger.Title
+	tempFindFlagger.ShouldFlagSum = flagger.ShouldFlagSum
+	tempFindFlagger.Announcement = flagger.Announcement
+	tempFindFlagger.IsMember = dbhandlers.HasJoinedFlagger(uid, flagger.Id)
+	flaggerMemberInfo, err1 := dbhandlers.GetFlaggerMemberInfoPlus(flagger.Id)
+	if err1 != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	for _, memberInfo := range flaggerMemberInfo {
+		if memberInfo.Uid == flagger.CreatorId {
+			memberInfo.IsAdmin = true
+		} else {
+			memberInfo.IsAdmin = false
+		}
+	}
+	tempFindFlagger.FlaggerMember = flaggerMemberInfo
+	returnData = *tempFindFlagger
+
+	c.JSON(http.StatusOK, returnData)
+
+}

@@ -26,13 +26,13 @@ type UserFlaggerInfo struct {
 }
 
 type UserFlagger struct {
-	Id                  int `gorm:"primarykey"`
-	Uid                 int
-	Fid                 int
-	FlagSum             int
-	LastFlagTime        time.Time
-	SequentialFlagTimes int
-	Status              int // 0 give up 1 doing 2 finish
+	Id                  int       `gorm:"primarykey" json:"id"`
+	Uid                 int       `json:"uid"`
+	Fid                 int       `json:"fid"`
+	FlagSum             int       `json:"flag_sum"`
+	LastFlagTime        time.Time `json:"last_flag_time"`
+	SequentialFlagTimes int       `json:"sequential_flag_times"`
+	Status              int       `json:"status"` // 0 give up 1 doing 2 finish
 }
 
 type UserIntreTag struct {

@@ -56,7 +56,8 @@ func noAuthApi() {
 	router.POST("/login", Login)
 	router.GET("/isregistered", isFirstLogin)
 	router.POST("/search-flag", SearchFlagger)
-	router.GET("/get-token",getToken)
+	router.GET("/get-token", getToken)
+	router.POST("/flaginfo", getFlagInfoByFid)
 }
 
 // func authApi()  {

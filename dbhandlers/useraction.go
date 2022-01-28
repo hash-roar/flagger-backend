@@ -91,6 +91,46 @@ func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 	}
 	return flaggerMemberInfo, nil
 }
+func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, error) {
+	type queryStruct struct {
+		Uid                 int
+		AvatarUrl           string
+		Nickname            string
+		FlagSum             int
+		SequentialFlagTimes int
+	}
+	var queryData []queryStruct
+	var flaggerMemberInfo []models.FlaggerGroupMemberInfoPlus
+	err := db.Table("user_flaggers").
+		Joins("left join user_base_infos on user_flaggers.uid = user_base_infos.uid").
+		Where("user_flaggers.fid = ?", fid).
+		Select("user_base_infos.avatar_url", "user_base_infos.nickname",
+			"user_flaggers.flag_sum", "user_base_infos.uid", "user_flaggers.sequential_flag_times").
+		Find(&queryData).Error
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range queryData {
+		var userIntreFlags []models.UserIntreTag
+		var userIntreFlagsString []string
+		err = db.Where("uid = ?", v.Uid).Find(&userIntreFlags).Error
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range userIntreFlags {
+			userIntreFlagsString = append(userIntreFlagsString, v.TagTitle)
+		}
+		flaggerMemberInfo = append(flaggerMemberInfo, models.FlaggerGroupMemberInfoPlus{
+			AvatarUrl:          v.AvatarUrl,
+			Nickname:           v.Nickname,
+			FlagSum:            v.FlagSum,
+			UserIntreTag:       userIntreFlagsString,
+			Uid:                v.Uid,
+			SequentialFlagTime: v.SequentialFlagTimes,
+		})
+	}
+	return flaggerMemberInfo, nil
+}
 
 func GetTags(uid int) (UserIntreTag []string, AllTags []string, err error) {
 	var userIntreTags []models.UserIntreTag
