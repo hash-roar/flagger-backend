@@ -11,6 +11,8 @@ RUN go build -o main .
 
 FROM alpine:latest
 
+run mkdir /app
+
 WORKDIR /app
 
 COPY --from=builder /app/main .
