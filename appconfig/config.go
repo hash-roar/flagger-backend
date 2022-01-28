@@ -18,16 +18,17 @@ type JwtInfo struct {
 }
 
 type DB struct {
-	User string `yaml:"user"`
-	Host string `yaml:"host"`
-	Sec  string `yaml:"sec"`
+	User   string `yaml:"user"`
+	Host   string `yaml:"host"`
+	Dbname string `yaml:"dbname"`
+	Sec    string `yaml:"sec"`
 }
 
 type Conf struct {
 	AppBase `yaml:"app_base"`
 	JwtInfo `yaml:"jwt_info"`
 	Dsn     string `yaml:"dsn"`
-	DB
+	DB      `yaml:"db"`
 }
 
 var AppConfig *Conf
@@ -41,5 +42,6 @@ func init() {
 	if err = yaml.Unmarshal(confFile, AppConfig); err != nil {
 		log.Fatal(err)
 	}
-	AppConfig.Dsn = fmt.Sprintf("")
+	AppConfig.Dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		AppConfig.User, AppConfig.Sec, AppConfig.Host, AppConfig.Dbname)
 }

@@ -7,3 +7,9 @@ jwt_info:
   jwt_maxage: 7 #days
 
 dsn: "root:@tcp(localhost:3307)/flagger?charset=utf8&parseTime=True&loc=Local"
+
+db: 
+  user: root
+  password: 
+  host: localhost:3307
+  dbname: flagger
