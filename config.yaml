@@ -9,7 +9,7 @@ jwt_info:
 dsn: "root:@tcp(localhost:3307)/flagger?charset=utf8&parseTime=True&loc=Local"
 
 db: 
-  user: root
+  #  user: root
   sec: intoflagger1@
   host: 10.0.224.16:3306
   dbname: flagger

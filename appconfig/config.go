@@ -44,4 +44,5 @@ func init() {
 	}
 	AppConfig.Dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		AppConfig.User, AppConfig.Sec, AppConfig.Host, AppConfig.Dbname)
+	log.Println(AppConfig.Dsn)
 }
