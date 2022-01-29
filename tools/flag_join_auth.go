@@ -16,7 +16,7 @@ func IsAuthorized(grade int, authNum uint64) bool {
 		return true
 	}
 	gradeNum := math.Pow(2, float64(grade))
-	return uint64(gradeNum)^authNum != 0
+	return uint64(gradeNum)&authNum != 0
 }
 
 func HasMaxNum(maxNum int, num int) bool {

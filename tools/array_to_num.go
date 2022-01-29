@@ -15,7 +15,7 @@ func SwitchNumToArray(num uint64) []int {
 	var result []int
 	for i := 0; i < 10; i++ {
 		powNum := math.Pow(2, float64(i))
-		if num^uint64(powNum) != 0 {
+		if num&uint64(powNum) != 0 {
 			result = append(result, i)
 		}
 	}

@@ -99,6 +99,14 @@ func UserInfo(c *gin.Context) {
 		})
 		return
 	}
+	err = dbhandlers.GetUserSocialTrend(uid, returnData)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
 	returnData.CredenceValue, err = dbhandlers.GetUserCredenceValue(uid)
 	if err != nil {
 		log.Println(err)
