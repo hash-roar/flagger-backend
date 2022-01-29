@@ -20,13 +20,13 @@ type FlaggerGroupMemberInfo struct {
 }
 
 type FindFlagger struct {
-	Fid           int
-	FlaggerTitle  string
-	TagTitle      string
-	Announcement  string
-	IsMember      bool
-	ShouldFlagSum int
-	FlaggerMember []FlaggerGroupMemberInfo
+	Fid           int                      `json:"fid"`
+	FlaggerTitle  string                   `json:"flagger_title"`
+	TagTitle      string                   `json:"tag_title"`
+	Announcement  string                   `json:"announcement"`
+	IsMember      bool                     `json:"is_member"`
+	ShouldFlagSum int                      `json:"should_flag_sum"`
+	FlaggerMember []FlaggerGroupMemberInfo `json:"flagger_member"`
 }
 
 type FlaggerGroupMemberInfoPlus struct {
@@ -42,30 +42,30 @@ type FlaggerGroupMemberInfoPlus struct {
 }
 
 type FlaggerInfo struct {
-	Fid           int
-	FlaggerTitle  string
-	TagTitle      string
-	Announcement  string
-	IsMember      bool
-	ShouldFlagSum int
-	FlaggerMember []FlaggerGroupMemberInfoPlus
+	Fid           int                          `json:"fid"`
+	FlaggerTitle  string                       `json:"flagger_title"`
+	TagTitle      string                       `json:"tag_title"`
+	Announcement  string                       `json:"announcement"`
+	IsMember      bool                         `json:"is_member"`
+	ShouldFlagSum int                          `json:"should_flag_sum"`
+	FlaggerMember []FlaggerGroupMemberInfoPlus `json:"flagger_member"`
 }
 
 type ReturnTagsInfo struct {
-	UserIntreTag []string
-	AllTags      []string
+	UserIntreTag []string `json:"user_intre_tag"`
+	AllTags      []string `json:"all_tags"`
 }
 
 type UserInfo struct {
-	Nickname        string `json:"nickname"`
-	AvatarUrl       string `json:"avatar_url"`
-	Grade           int    `json:"grade"`
-	Major           int    `json:"major"`
-	UserSocialTrend []int  `json:"user_social_trend"`
-	Environment     []int  `json:"environment"`
-	UserIntreTag    []string
-	HaveFlaged      int `json:"have_flaged"`
-	ShouldFlagSum   int `json:"should_flag_sum"`
-	CredenceValue   int `json:"credence_value"`
+	Nickname        string   `json:"nickname"`
+	AvatarUrl       string   `json:"avatar_url"`
+	Grade           int      `json:"grade"`
+	Major           int      `json:"major"`
+	UserSocialTrend []int    `json:"user_social_trend"`
+	Environment     []int    `json:"environment"`
+	UserIntreTag    []string `json:"user_intre_tag"`
+	HaveFlaged      int      `json:"have_flaged"`
+	ShouldFlagSum   int      `json:"should_flag_sum"`
+	CredenceValue   int      `json:"credence_value"`
 	// UserHistory     []FindFlagger
 }
