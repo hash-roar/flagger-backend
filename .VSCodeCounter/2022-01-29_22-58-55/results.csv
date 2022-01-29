@@ -1,0 +1,27 @@
+"filename", "language", "Go", "Go Module File", "Go Checksum File", "YAML", "Ignore", "Docker", "comment", "blank", "total"
+"d:\working\flagger-backend\.dockerignore", "Ignore", 0, 0, 0, 0, 1, 0, 0, 0, 1
+"d:\working\flagger-backend\Dockerfile", "Docker", 0, 0, 0, 0, 0, 12, 0, 14, 26
+"d:\working\flagger-backend\appconfig\config.go", "Go", 41, 0, 0, 0, 0, 0, 0, 8, 49
+"d:\working\flagger-backend\config.yaml", "YAML", 0, 0, 0, 12, 0, 0, 0, 4, 16
+"d:\working\flagger-backend\dbhandlers\base.go", "Go", 28, 0, 0, 0, 0, 0, 0, 6, 34
+"d:\working\flagger-backend\dbhandlers\baseaction.go", "Go", 118, 0, 0, 0, 0, 0, 0, 18, 136
+"d:\working\flagger-backend\dbhandlers\flaggeraction.go", "Go", 197, 0, 0, 0, 0, 0, 5, 16, 218
+"d:\working\flagger-backend\dbhandlers\useraction.go", "Go", 238, 0, 0, 0, 0, 0, 2, 22, 262
+"d:\working\flagger-backend\go.mod", "Go Module File", 0, 25, 0, 0, 0, 0, 0, 3, 28
+"d:\working\flagger-backend\go.sum", "Go Checksum File", 0, 0, 63, 0, 0, 0, 0, 1, 64
+"d:\working\flagger-backend\main.go", "Go", 9, 0, 0, 0, 0, 0, 0, 4, 13
+"d:\working\flagger-backend\models\db_query_type.go", "Go", 9, 0, 0, 0, 0, 0, 0, 4, 13
+"d:\working\flagger-backend\models\db_type.go", "Go", 74, 0, 0, 0, 0, 0, 3, 12, 89
+"d:\working\flagger-backend\models\post_form_type.go", "Go", 36, 0, 0, 0, 0, 0, 2, 4, 42
+"d:\working\flagger-backend\models\return_data_type.go", "Go", 63, 0, 0, 0, 0, 0, 1, 8, 72
+"d:\working\flagger-backend\routers\auth.go", "Go", 128, 0, 0, 0, 0, 0, 3, 11, 142
+"d:\working\flagger-backend\routers\flagger.go", "Go", 439, 0, 0, 0, 0, 0, 7, 23, 469
+"d:\working\flagger-backend\routers\router.go", "Go", 58, 0, 0, 0, 0, 0, 3, 11, 72
+"d:\working\flagger-backend\routers\user.go", "Go", 255, 0, 0, 0, 0, 0, 1, 10, 266
+"d:\working\flagger-backend\tools\array_to_num.go", "Go", 20, 0, 0, 0, 0, 0, 0, 4, 24
+"d:\working\flagger-backend\tools\flag_join_auth.go", "Go", 36, 0, 0, 0, 0, 0, 0, 5, 41
+"d:\working\flagger-backend\tools\flag_join_auth_test.go", "Go", 16, 0, 0, 0, 0, 0, 0, 5, 21
+"d:\working\flagger-backend\tools\flagger.go", "Go", 15, 0, 0, 0, 0, 0, 0, 2, 17
+"d:\working\flagger-backend\tools\time.go", "Go", 34, 0, 0, 0, 0, 0, 0, 6, 40
+"d:\working\flagger-backend\tools\user.go", "Go", 1, 0, 0, 0, 0, 0, 3, 1, 5
+"Total", "-", 1815, 25, 63, 12, 1, 12, 30, 202, 2160

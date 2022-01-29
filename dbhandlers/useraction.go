@@ -257,5 +257,17 @@ func DeleteUserInfo(uid int) error {
 	if err != nil {
 		log.Println(err)
 	}
+	err = db.Where("uid = ?", uid).Delete(&models.UserFlagger{}).Error
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Where("uid = ?", uid).Delete(&models.UserFlaggerInfo{}).Error
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Where("uid = ?", uid).Delete(&models.UserIntreTag{}).Error
+	if err != nil {
+		log.Println(err)
+	}
 	return nil
 }

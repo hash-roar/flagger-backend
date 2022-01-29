@@ -7,11 +7,13 @@ import (
 )
 
 type UserBaseInfo struct {
-	Uid       int    `gorm:"primarykey"`
-	Openid    string `gorm:"index:idx,unique"`
-	Sex       int
-	Grade     int
-	Major     int
+	Uid    int    `gorm:"primarykey"`
+	Openid string `gorm:"index:idx,unique"`
+	Sex    int
+	Grade  int
+	Major  int
+	// GradeStr  string
+	// MajorStr  string
 	AvatarUrl string
 	Nickname  string
 	SecretKey string

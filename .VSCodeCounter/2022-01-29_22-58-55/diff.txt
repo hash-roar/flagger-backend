@@ -1,0 +1,40 @@
+Date : 2022-01-29 22:58:55
+Directory : d:\working\flagger-backend
+Total : 12 files,  126 codes, 5 comments, 7 blanks, all 138 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Go       |         12 |        126 |          5 |          7 |        138 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                   | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                      |         12 |        126 |          5 |          7 |        138 |
+| dbhandlers                                             |          3 |         47 |          1 |          4 |         52 |
+| models                                                 |          1 |          1 |          0 |          0 |          1 |
+| routers                                                |          4 |         57 |          1 |          1 |         59 |
+| tools                                                  |          3 |         19 |          3 |          1 |         23 |
++--------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                               | language | code       | comment    | blank      | total      |
++--------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\working\flagger-backend\dbhandlers\baseaction.go    | Go       |          0 |          0 |          1 |          1 |
+| d:\working\flagger-backend\dbhandlers\flaggeraction.go | Go       |         23 |          1 |          1 |         25 |
+| d:\working\flagger-backend\dbhandlers\useraction.go    | Go       |         24 |          0 |          2 |         26 |
+| d:\working\flagger-backend\main.go                     | Go       |          2 |          0 |          1 |          3 |
+| d:\working\flagger-backend\models\return_data_type.go  | Go       |          1 |          0 |          0 |          1 |
+| d:\working\flagger-backend\routers\auth.go             | Go       |          3 |          0 |          0 |          3 |
+| d:\working\flagger-backend\routers\flagger.go          | Go       |         17 |          0 |          0 |         17 |
+| d:\working\flagger-backend\routers\router.go           | Go       |          1 |          0 |          0 |          1 |
+| d:\working\flagger-backend\routers\user.go             | Go       |         36 |          1 |          1 |         38 |
+| d:\working\flagger-backend\tools\flagger.go            | Go       |         11 |          0 |         -1 |         10 |
+| d:\working\flagger-backend\tools\time.go               | Go       |          7 |          0 |          1 |          8 |
+| d:\working\flagger-backend\tools\user.go               | Go       |          1 |          3 |          1 |          5 |
+| Total                                                  |          |        126 |          5 |          7 |        138 |
++--------------------------------------------------------+----------+------------+------------+------------+------------+
