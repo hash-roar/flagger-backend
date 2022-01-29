@@ -37,7 +37,7 @@ func DoingFlag(uid int, fid int) error {
 func GetUserDoingFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 	var queryData []models.DoingFlaggersQuery
 	result := db.Model(&models.Flagger{}).
-	Select("user_flaggers.flag_sum", "user_flaggers.last_flag_time", "flaggers.id", "flaggers.should_flag_sum", "flaggers.title").
+		Select("user_flaggers.flag_sum", "user_flaggers.last_flag_time", "flaggers.id", "flaggers.should_flag_sum", "flaggers.title").
 		Joins("left join user_flaggers on user_flaggers.fid = flaggers.id").
 		Where("user_flaggers.uid = ?", uid).
 		Where("user_flaggers.last_flag_time < ?", tools.GetTodayStartTime()).
@@ -143,12 +143,13 @@ func JoinFlagger(uid int, fid int) error {
 		return errors.New("没有权限")
 	}
 	userFlagger := &models.
-		UserFlagger{Uid: uid, Fid: fid, FlagSum: 1, SequentialFlagTimes: 1, LastFlagTime: time.Now(), Status: 1}
+		UserFlagger{Uid: uid, Fid: fid, FlagSum: 0,
+		SequentialFlagTimes: 0, LastFlagTime: tools.GetYesterdayStartTime(), Status: 1}
 	err = db.Create(userFlagger).Error
 	if err != nil {
 		return err
 	}
-	err = AddFlaggerTotalSum(fid)
+	// err = AddFlaggerTotalSum(fid)
 	return err
 }
 
@@ -207,4 +208,10 @@ func GetUserHistory(uid int) (result []models.Flagger, err error) {
 		Where("user_flaggers.uid = ?", uid).
 		Find(&result).Error
 	return
+}
+
+func isFlaggerAdmin(uid int, fid int) bool {
+	flagger := &models.Flagger{}
+	db.Where("id = ?", fid).First(flagger)
+	return uid == flagger.CreatorId
 }

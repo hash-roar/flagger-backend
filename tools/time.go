@@ -29,3 +29,11 @@ func GetTodayStartTime() time.Time {
 	t_zero := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 0, 0, 0, 0, time.Local)
 	return t_zero
 }
+
+func GetYesterdayStartTime() time.Time {
+	timeNow := time.Now()
+	t_zero := time.Date(timeNow.Year(), timeNow.Month(), timeNow.Day(), 0, 0, 0, 0, time.Local)
+	dayAgo, _ := time.ParseDuration("-24h")
+	t_minus_one := t_zero.Add(dayAgo)
+	return t_minus_one
+}

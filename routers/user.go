@@ -42,7 +42,7 @@ func addUserBaseInfo(c *gin.Context) {
 	if _, err := dbhandlers.AddUserSocailTrend(userSocialtrend); err != nil {
 		log.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "服务端错误",
+			"error": "信息已存在",
 		})
 		return
 	}

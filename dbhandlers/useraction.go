@@ -99,6 +99,7 @@ func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 			Uid:          v.Uid,
 			FlaggedToday: tools.IsToday(v.LastFlagTime),
 			UserLevel:    reputationLevel,
+			IsAdmin:      isFlaggerAdmin(v.Uid, fid),
 		})
 	}
 	return flaggerMemberInfo, nil
@@ -154,6 +155,7 @@ func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, err
 			SequentialFlagTime: v.SequentialFlagTimes,
 			FlaggedToday:       tools.IsToday(v.LastFlagTime),
 			UserLevel:          reputationLevel,
+			IsAdmin:            isFlaggerAdmin(v.Uid, fid),
 		})
 	}
 	return flaggerMemberInfo, nil
