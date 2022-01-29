@@ -225,3 +225,25 @@ func SaveUserInfo(c *gin.Context) {
 		"mesage": "保存成功",
 	})
 }
+
+func DeleteUserInfo(c *gin.Context) {
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "用户不存在",
+		})
+		return
+	}
+	if err = dbhandlers.DeleteUserInfo(uid); err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"message": "删除成功",
+	})
+}

@@ -59,6 +59,7 @@ func noAuthApi() {
 	router.POST("/search-flag", SearchFlagger)
 	router.GET("/get-token", getToken)
 	router.POST("/flaginfo", getFlagInfoByFid)
+	router.GET("/delete-user", DeleteUserInfo)
 }
 
 // func authApi()  {

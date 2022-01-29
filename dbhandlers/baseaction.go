@@ -75,12 +75,13 @@ func GetTagByTitle(title string) (int, error) {
 	return tag.Tid, result.Error
 }
 
-func GetAllFlaggers(uid int) ([]models.Flagger, error) {
+func GetAllFlaggers() ([]models.Flagger, error) {
 	var queryData []models.Flagger
 	if err := db.Find(&queryData).Error; err != nil {
 		return nil, err
 	}
 	return queryData, nil
+	
 }
 
 func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {

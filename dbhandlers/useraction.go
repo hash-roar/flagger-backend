@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flagger-backend/models"
 	"flagger-backend/tools"
+	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -49,10 +50,11 @@ func AddUserIntreTags(uid int, tags []string) error {
 	return nil
 }
 
-func AddStudentId(uid int, studentId string, password string) error {
+func AddStudentId(uid int, studentId string, password string, avatarUrl string, nickname string) error {
 	return db.Table("user_base_infos").
 		Where("uid = ?", uid).
-		Updates(map[string]interface{}{"student_id": studentId, "password": password}).
+		Updates(map[string]interface{}{"student_id": studentId,
+			"password": password, "avatar_url": avatarUrl, "nickname": nickname}).
 		Error
 }
 
@@ -242,4 +244,16 @@ func AddUserReputation(uid int, step int) error {
 	return db.Table("user_flagger_infos").
 		Where("uid = ?", uid).
 		Update("reputation_value", gorm.Expr("reputation_value + ?", step)).Error
+}
+
+func DeleteUserInfo(uid int) error {
+	err := db.Where("uid = ?", uid).Delete(&models.UserBaseInfo{}).Error
+	if err != nil {
+		return err
+	}
+	err = db.Where("uid = ?", uid).Delete(&models.UserSocialTrend{}).Error
+	if err != nil {
+		log.Println(err)
+	}
+	return nil
 }

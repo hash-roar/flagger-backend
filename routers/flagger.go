@@ -156,6 +156,7 @@ func userCreateFlag(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 	formData.CreatorId = uid
 	fid, err := dbhandlers.UserCreateFlag(formData)
@@ -177,6 +178,13 @@ func userCreateFlag(c *gin.Context) {
 	if formData.CreatedTag != "" {
 		tagTemp := &models.Tag{CreatorId: uid, Title: formData.CreatedTag}
 		tid, err := dbhandlers.AddTag(tagTemp)
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "服务端错误",
+			})
+			return
+		}
 		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid, CreateTime: time.Now()}
 		err = dbhandlers.AddFlaggerTagInfo(flagTagInfo)
 		if err != nil {
@@ -188,6 +196,13 @@ func userCreateFlag(c *gin.Context) {
 		}
 	} else {
 		tid, err := dbhandlers.GetTagByTitle(formData.Tag)
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "服务端错误",
+			})
+			return
+		}
 		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid, CreateTime: time.Now()}
 		err = dbhandlers.AddFlaggerTagInfo(flagTagInfo)
 		if err != nil {
@@ -244,7 +259,7 @@ func MoreFlagger(c *gin.Context) {
 		})
 		return
 	}
-	allFlaggers, err := dbhandlers.GetAllFlaggers(uid)
+	allFlaggers, err := dbhandlers.GetAllFlaggers()
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{

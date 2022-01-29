@@ -60,6 +60,8 @@ func addStudentId(c *gin.Context) {
 	type formStruct struct {
 		StudentId string `json:"student_id"`
 		Password  string `json:"password"`
+		AvatarUrl string `json:"avatar_url"`
+		Nickname  string `json:"nickname"`
 	}
 	openid := c.Request.Header.Get("X-WX-OPENID")
 	formData := &formStruct{}
@@ -72,7 +74,8 @@ func addStudentId(c *gin.Context) {
 		})
 		return
 	}
-	err = dbhandlers.AddStudentId(uid, formData.StudentId, formData.Password)
+	err = dbhandlers.AddStudentId(uid, formData.StudentId, formData.Password,
+		formData.AvatarUrl, formData.Nickname)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{
