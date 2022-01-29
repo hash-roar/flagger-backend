@@ -81,7 +81,7 @@ func GetAllFlaggers() ([]models.Flagger, error) {
 		return nil, err
 	}
 	return queryData, nil
-	
+
 }
 
 func getDoingFlagger(uid int, fid int) (*models.UserFlagger, error) {

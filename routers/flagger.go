@@ -195,7 +195,8 @@ func userCreateFlag(c *gin.Context) {
 			return
 		}
 	} else {
-		tid, err := dbhandlers.GetTagByTitle(formData.Tag)
+		tagTemp := &models.Tag{CreatorId: uid, Title: formData.Tag}
+		tid, err := dbhandlers.AddTag(tagTemp)
 		if err != nil {
 			log.Println(err)
 			c.JSON(http.StatusForbidden, gin.H{
