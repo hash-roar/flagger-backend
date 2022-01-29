@@ -2,6 +2,7 @@ package dbhandlers
 
 import (
 	"flagger-backend/models"
+	"flagger-backend/tools"
 	"time"
 
 	"gorm.io/gorm"
@@ -12,6 +13,30 @@ func AddUserBaseInfo(uid int, sex int, grade int, major int) (int, error) {
 		Where("uid = ?", uid).
 		Updates(map[string]interface{}{"sex": sex, "grade": grade, "major": major})
 	return int(result.RowsAffected), result.Error
+}
+
+func SaveUserBaseInfo(uid int, data *models.FormSaveUserInfo) error {
+	userInfo := &models.UserBaseInfo{}
+	if err := db.Where("uid = ?", uid).First(userInfo).Error; err != nil {
+		return err
+	}
+	userInfo.AvatarUrl = data.AvatarUrl
+	userInfo.Nickname = data.Nickname
+	userInfo.Major = data.Major
+	userInfo.Grade = data.Grade
+	if err := db.Model(userInfo).Updates(*userInfo).Error; err != nil {
+		return err
+	}
+	userSocialTrend := &models.UserSocialTrend{}
+	if err := db.Where("uid = ?", uid).First(userSocialTrend).Error; err != nil {
+		return err
+	}
+	userSocialTrend.EnvTrend = tools.SwitchArrayToNum(data.Environment)
+	userSocialTrend.SocialTrend = tools.SwitchArrayToNum(data.Socialtendency)
+	if err := db.Model(userSocialTrend).Updates(*userSocialTrend).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func AddUserSocailTrend(data *models.UserSocialTrend) (int, error) {

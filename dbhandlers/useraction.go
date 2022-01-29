@@ -5,6 +5,8 @@ import (
 	"flagger-backend/models"
 	"flagger-backend/tools"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func GetUidByOpenid(openid string) (int, error) {
@@ -56,22 +58,28 @@ func AddStudentId(uid int, studentId string, password string) error {
 
 func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 	type queryStruct struct {
-		Uid       int
-		AvatarUrl string
-		Nickname  string
-		FlagSum   int
+		Uid          int
+		AvatarUrl    string
+		Nickname     string
+		FlagSum      int
+		LastFlagTime time.Time
 	}
 	var queryData []queryStruct
 	var flaggerMemberInfo []models.FlaggerGroupMemberInfo
 	err := db.Table("user_flaggers").
 		Joins("left join user_base_infos on user_flaggers.uid = user_base_infos.uid").
 		Where("user_flaggers.fid = ?", fid).
-		Select("user_base_infos.avatar_url", "user_base_infos.nickname", "user_flaggers.flag_sum", "user_base_infos.uid").
+		Select("user_base_infos.avatar_url", "user_base_infos.nickname",
+			"user_flaggers.flag_sum", "user_base_infos.uid", "user_flaggers.last_flag_time").
 		Find(&queryData).Error
 	if err != nil {
 		return nil, err
 	}
 	for _, v := range queryData {
+		reputationLevel, err1 := GetReputationLevel(v.Uid)
+		if err1 != nil {
+			return nil, err1
+		}
 		var userIntreFlags []models.UserIntreTag
 		var userIntreFlagsString []string
 		err = db.Where("uid = ?", v.Uid).Find(&userIntreFlags).Error
@@ -87,10 +95,19 @@ func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 			FlagSum:      v.FlagSum,
 			UserIntreTag: userIntreFlagsString,
 			Uid:          v.Uid,
+			FlaggedToday: tools.IsToday(v.LastFlagTime),
+			UserLevel:    reputationLevel,
 		})
 	}
 	return flaggerMemberInfo, nil
 }
+
+func GetReputationLevel(uid int) (int, error) {
+	userFlaggerInfo := &models.UserFlaggerInfo{}
+	result := db.Where("uid = ?", uid).First(userFlaggerInfo)
+	return tools.GetReputationLevel(userFlaggerInfo.ReputationValue), result.Error
+}
+
 func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, error) {
 	type queryStruct struct {
 		Uid                 int
@@ -98,6 +115,7 @@ func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, err
 		Nickname            string
 		FlagSum             int
 		SequentialFlagTimes int
+		LastFlagTime        time.Time
 	}
 	var queryData []queryStruct
 	var flaggerMemberInfo []models.FlaggerGroupMemberInfoPlus
@@ -105,12 +123,17 @@ func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, err
 		Joins("left join user_base_infos on user_flaggers.uid = user_base_infos.uid").
 		Where("user_flaggers.fid = ?", fid).
 		Select("user_base_infos.avatar_url", "user_base_infos.nickname",
-			"user_flaggers.flag_sum", "user_base_infos.uid", "user_flaggers.sequential_flag_times").
+			"user_flaggers.flag_sum", "user_base_infos.uid",
+			"user_flaggers.sequential_flag_times", "user_flaggers.last_flag_time").
 		Find(&queryData).Error
 	if err != nil {
 		return nil, err
 	}
 	for _, v := range queryData {
+		reputationLevel, err1 := GetReputationLevel(v.Uid)
+		if err1 != nil {
+			return nil, err1
+		}
 		var userIntreFlags []models.UserIntreTag
 		var userIntreFlagsString []string
 		err = db.Where("uid = ?", v.Uid).Find(&userIntreFlags).Error
@@ -127,6 +150,8 @@ func GetFlaggerMemberInfoPlus(fid int) ([]models.FlaggerGroupMemberInfoPlus, err
 			UserIntreTag:       userIntreFlagsString,
 			Uid:                v.Uid,
 			SequentialFlagTime: v.SequentialFlagTimes,
+			FlaggedToday:       tools.IsToday(v.LastFlagTime),
+			UserLevel:          reputationLevel,
 		})
 	}
 	return flaggerMemberInfo, nil
@@ -197,10 +222,7 @@ func GetUserShouldFlaggedSum(uid int) (int, error) {
 func IsRegistered(openid string) bool {
 	user := &models.UserBaseInfo{}
 	result := db.Where("openid = ?", openid).Find(user)
-	if result.RowsAffected == 0 {
-		return false
-	}
-	return true
+	return result.RowsAffected != 0
 
 }
 
@@ -208,4 +230,16 @@ func GetFlaggerUserNum(fid int) (int, error) {
 	var userFlaggers []models.UserFlagger
 	result := db.Where("fid = ?", fid).Find(&userFlaggers)
 	return int(result.RowsAffected), result.Error
+}
+
+func SubUserReputation(uid int, step int) error {
+	return db.Table("user_flagger_infos").
+		Where("uid = ?", uid).
+		Update("reputation_value", gorm.Expr("reputation_value - ?", step)).Error
+}
+
+func AddUserReputation(uid int, step int) error {
+	return db.Table("user_flagger_infos").
+		Where("uid = ?", uid).
+		Update("reputation_value", gorm.Expr("reputation_value + ?", step)).Error
 }

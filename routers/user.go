@@ -58,6 +58,13 @@ func addUserBaseInfo(c *gin.Context) {
 	if formData.CreatedTag != "" {
 		tagTemp := models.Tag{Title: formData.CreatedTag, CreatorId: uid}
 		tid, err := dbhandlers.AddTag(&tagTemp)
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "服务端错误",
+			})
+			return
+		}
 		userIntreTagTemp := models.UserIntreTag{Uid: uid, TagTitle: formData.CreatedTag, Tid: tid}
 		_, err = dbhandlers.AddUserIntreTag(&userIntreTagTemp)
 		if err != nil {
@@ -187,4 +194,34 @@ func GetUserHistory(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, returnData)
 
+}
+
+func SaveUserInfo(c *gin.Context) {
+	openid := c.Request.Header.Get("X-WX-OPENID")
+	uid, err := dbhandlers.GetUidByOpenid(openid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	formData := &models.FormSaveUserInfo{}
+	if err := c.Bind(formData); err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "数据有误",
+		})
+		return
+	}
+	if err1 := dbhandlers.SaveUserBaseInfo(uid, formData); err1 != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "服务端错误",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"mesage": "保存成功",
+	})
 }

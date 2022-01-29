@@ -105,7 +105,7 @@ func doingFlag(c *gin.Context) {
 		})
 		return
 	}
-	if err != dbhandlers.DoingFlag(uid, fid) {
+	if err = dbhandlers.DoingFlag(uid, fid); err != nil {
 		c.JSON(http.StatusForbidden, gin.H{
 			"error": err.Error(),
 		})

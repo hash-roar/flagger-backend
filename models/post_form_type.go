@@ -29,3 +29,13 @@ type FormUserCreateFlag struct {
 	Frequency      int    `form:"frequency" json:"frequency"`
 	Announcement   string `form:"announcement" json:"announcement"`
 }
+
+type FormSaveUserInfo struct {
+	Sex            int    `form:"sex" json:"sex"`
+	Grade          int    `form:"grade" json:"grade"`
+	Major          int    `form:"major" json:"major"`
+	Environment    []int  `form:"environment" json:"environment"`
+	Socialtendency []int  `form:"socialtendency" json:"socialtendency"`
+	AvatarUrl      string `json:"avatar_url"`
+	Nickname       string `json:"nickname"`
+}

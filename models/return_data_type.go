@@ -9,12 +9,14 @@ type UserDoingFlagger struct {
 }
 
 type FlaggerGroupMemberInfo struct {
-	Uid          int
-	AvatarUrl    string
-	Nickname     string
-	IsAdmin      bool
-	FlagSum      int
-	UserIntreTag []string
+	Uid          int      `json:"uid"`
+	AvatarUrl    string   `json:"avatar_url"`
+	Nickname     string   `json:"nickname"`
+	IsAdmin      bool     `json:"is_admin"`
+	FlagSum      int      `json:"flag_sum"`
+	UserIntreTag []string `json:"user_intre_tag"`
+	FlaggedToday bool     `json:"flagged_today"`
+	UserLevel    int      `json:"user_level"`
 }
 
 type FindFlagger struct {
@@ -35,6 +37,8 @@ type FlaggerGroupMemberInfoPlus struct {
 	FlagSum            int      `json:"flag_sum"`
 	UserIntreTag       []string `json:"user_intre_tag"`
 	SequentialFlagTime int      `json:"sequential_flag_time"`
+	FlaggedToday       bool     `json:"flagged_today"`
+	UserLevel          int      `json:"user_level"`
 }
 
 type FlaggerInfo struct {

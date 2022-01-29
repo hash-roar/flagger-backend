@@ -49,6 +49,7 @@ func initFlagApi() {
 func initUserApi() {
 	router.GET("/get-user-info", UserInfo)
 	router.GET("/get-user-history", GetUserHistory)
+	router.POST("/save-user-info", SaveUserInfo)
 }
 
 func noAuthApi() {

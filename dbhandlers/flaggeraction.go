@@ -20,11 +20,15 @@ func DoingFlag(uid int, fid int) error {
 	if tools.IsYesterday(userFlagger.LastFlagTime) {
 		userFlagger.FlagSum += 1
 		userFlagger.SequentialFlagTimes += 1
+	} else {
+		userFlagger.FlagSum += 1
+		userFlagger.SequentialFlagTimes = 1
 	}
-	userFlagger.FlagSum += 1
-	userFlagger.SequentialFlagTimes = 1
 	userFlagger.LastFlagTime = time.Now()
 	if err = AddFlaggerTotalSum(fid); err != nil {
+		return err
+	}
+	if err = AddUserReputation(uid, userFlagger.SequentialFlagTimes); err != nil {
 		return err
 	}
 	return db.Save(userFlagger).Error
@@ -127,6 +131,9 @@ func JoinFlagger(uid int, fid int) error {
 	userFlagger := &models.
 		UserFlagger{Uid: uid, Fid: fid, FlagSum: 1, SequentialFlagTimes: 1, LastFlagTime: time.Now(), Status: 1}
 	err = db.Create(userFlagger).Error
+	if err != nil {
+		return err
+	}
 	err = AddFlaggerTotalSum(fid)
 	return err
 }
