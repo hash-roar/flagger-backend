@@ -79,6 +79,7 @@ func getUserFinishedFlagger(c *gin.Context) {
 			log.Println(err)
 		}
 		temp := models.UserDoingFlagger{}
+		temp.Fid = v.Id
 		temp.FinishedAvatarUrl = userFlagedAvatarUrls
 		temp.FinishedNum = userFlagedNum
 		temp.FlaggerTitle = v.Title
