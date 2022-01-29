@@ -36,9 +36,9 @@ func DoingFlag(uid int, fid int) error {
 
 func GetUserDoingFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 	var queryData []models.DoingFlaggersQuery
-	result := db.Model(&models.UserFlagger{}).
-		Select("user_flaggers.flag_sum,user_flaggers.last_flag_time,flaggers.id,flaggers.should_flag_sum,flaggers.title").
-		Joins("left join flaggers on user_flaggers.fid = flaggers.id").
+	result := db.Model(&models.Flagger{}).
+	Select("user_flaggers.flag_sum", "user_flaggers.last_flag_time", "flaggers.id", "flaggers.should_flag_sum", "flaggers.title").
+		Joins("left join user_flaggers on user_flaggers.fid = flaggers.id").
 		Where("user_flaggers.uid = ?", uid).
 		Where("user_flaggers.last_flag_time < ?", tools.GetTodayStartTime()).
 		Where("user_flaggers.status = ?", 1).
@@ -50,9 +50,9 @@ func GetUserDoingFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 }
 func GetUserFinishedFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 	var queryData []models.DoingFlaggersQuery
-	result := db.Model(&models.UserFlagger{}).
-		Select("user_flaggers.flag_sum,user_flaggers.last_flag_time,flaggers.id,flaggers.should_flag_sum,flaggers.title").
-		Joins("left join flaggers on user_flaggers.fid = flaggers.id").
+	result := db.Model(&models.Flagger{}).
+		Select("user_flaggers.flag_sum", "user_flaggers.last_flag_time", "flaggers.id", "flaggers.should_flag_sum", "flaggers.title").
+		Joins("left join user_flaggers on user_flaggers.fid = flaggers.id").
 		Where("user_flaggers.uid = ?", uid).
 		Where("user_flaggers.last_flag_time BETWEEN ? AND ?", tools.GetTodayStartTime(), time.Now()).
 		Where("user_flaggers.status = ?", 1).
