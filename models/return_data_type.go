@@ -63,8 +63,9 @@ type UserInfo struct {
 	Major           int    `json:"major"`
 	UserSocialTrend []int  `json:"user_social_trend"`
 	Environment     []int  `json:"environment"`
-	HaveFlaged      int    `json:"have_flaged"`
-	ShouldFlagSum   int    `json:"should_flag_sum"`
-	CredenceValue   int    `json:"credence_value"`
+	UserIntreTag    []string
+	HaveFlaged      int `json:"have_flaged"`
+	ShouldFlagSum   int `json:"should_flag_sum"`
+	CredenceValue   int `json:"credence_value"`
 	// UserHistory     []FindFlagger
 }

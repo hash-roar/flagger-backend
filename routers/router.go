@@ -67,5 +67,5 @@ func noAuthApi() {
 // }
 
 func Run() {
-	router.Run(":80")
+	router.Run("127.0.0.1:8080")
 }

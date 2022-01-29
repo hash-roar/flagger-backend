@@ -123,6 +123,14 @@ func UserInfo(c *gin.Context) {
 		})
 		return
 	}
+	returnData.UserIntreTag, _, err = dbhandlers.GetTags(uid)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "获取tag失败",
+		})
+		// return
+	}
 	c.JSON(http.StatusOK, returnData)
 }
 
