@@ -63,7 +63,7 @@ func getUserFinishedFlagger(c *gin.Context) {
 		})
 		return
 	}
-	queryData, err := dbhandlers.GetUserDoingFlagger(uid)
+	queryData, err := dbhandlers.GetUserFinishedFlagger(uid)
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{

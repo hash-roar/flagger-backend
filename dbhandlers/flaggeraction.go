@@ -48,6 +48,20 @@ func GetUserDoingFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
 	}
 	return queryData, nil
 }
+func GetUserFinishedFlagger(uid int) ([]models.DoingFlaggersQuery, error) {
+	var queryData []models.DoingFlaggersQuery
+	result := db.Model(&models.UserFlagger{}).
+		Select("user_flaggers.flag_sum,user_flaggers.last_flag_time,flaggers.id,flaggers.should_flag_sum,flaggers.title").
+		Joins("left join flaggers on user_flaggers.fid = flaggers.id").
+		Where("user_flaggers.uid = ?", uid).
+		Where("user_flaggers.last_flag_time BETWEEN ? AND ?", tools.GetTodayStartTime(), time.Now()).
+		Where("user_flaggers.status = ?", 1).
+		Find(&queryData)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return queryData, nil
+}
 
 func GetFinishedFlaggerUserInfo(fid int) (flagedAvatarUrl []string, hadFlagedNum int, err error) {
 	type queryStruct struct {
