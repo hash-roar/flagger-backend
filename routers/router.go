@@ -42,7 +42,7 @@ func initFlagApi() {
 	router.POST("/doing-flag", doingFlag)
 	router.GET("/get-doing-flag", getUserDoingFlagger)
 	router.GET("/get-finished-flag", getUserFinishedFlagger)
-	router.GET("/join-flag", joinFlagGroup)
+	router.POST("/join-flag", joinFlagGroup)
 	router.POST("/abandon-flag", abandonFlag)
 	router.GET("/get-intre_tags", GetTags)
 }
