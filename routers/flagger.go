@@ -257,7 +257,7 @@ func MoreFlagger(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.JSON(http.StatusForbidden, gin.H{
-			"error": "服务端错误",
+			"error": "获取用户信息错误",
 		})
 		return
 	}
