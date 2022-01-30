@@ -80,13 +80,13 @@ func GetFlaggerMemberInfo(fid int) ([]models.FlaggerGroupMemberInfo, error) {
 	for _, v := range queryData {
 		reputationLevel, err1 := GetReputationLevel(v.Uid)
 		if err1 != nil {
-			return nil, err1
+			continue
 		}
 		var userIntreFlags []models.UserIntreTag
 		var userIntreFlagsString []string
 		err = db.Where("uid = ?", v.Uid).Find(&userIntreFlags).Error
 		if err != nil {
-			return nil, err
+			continue
 		}
 		for _, v := range userIntreFlags {
 			userIntreFlagsString = append(userIntreFlagsString, v.TagTitle)

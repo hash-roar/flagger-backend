@@ -274,6 +274,7 @@ func MoreFlagger(c *gin.Context) {
 		tag, err := dbhandlers.GetTagTitleByFid(v.Id)
 		if err != nil {
 			log.Println(err)
+			continue
 		}
 		tempFindFlagger.Fid = v.Id
 		tempFindFlagger.TagTitle = tag
@@ -284,10 +285,7 @@ func MoreFlagger(c *gin.Context) {
 		flaggerMemberInfo, err1 := dbhandlers.GetFlaggerMemberInfo(v.Id)
 		if err1 != nil {
 			log.Println(err)
-			c.JSON(http.StatusForbidden, gin.H{
-				"error": "服务端错误",
-			})
-			return
+			continue
 		}
 		for _, memberInfo := range flaggerMemberInfo {
 			if memberInfo.Uid == v.CreatorId {
