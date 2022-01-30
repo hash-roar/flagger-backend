@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -186,7 +185,7 @@ func userCreateFlag(c *gin.Context) {
 			})
 			return
 		}
-		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid, CreateTime: time.Now()}
+		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid}
 		err = dbhandlers.AddFlaggerTagInfo(flagTagInfo)
 		if err != nil {
 			log.Println(err)
@@ -205,7 +204,7 @@ func userCreateFlag(c *gin.Context) {
 			})
 			return
 		}
-		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid, CreateTime: time.Now()}
+		flagTagInfo := &models.FlaggerTag{Fid: fid, Tid: tid}
 		err = dbhandlers.AddFlaggerTagInfo(flagTagInfo)
 		if err != nil {
 			log.Println(err)

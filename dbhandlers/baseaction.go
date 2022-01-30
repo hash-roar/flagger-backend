@@ -23,7 +23,7 @@ func SaveUserBaseInfo(uid int, data *models.FormSaveUserInfo) error {
 	userInfo.Nickname = data.Nickname
 	userInfo.Major = data.Major
 	userInfo.Grade = data.Grade
-	if err := db.Model(userInfo).Updates(*userInfo).Error; err != nil {
+	if err := db.Model(userInfo).Where("uid = ?", uid).Updates(*userInfo).Error; err != nil {
 		return err
 	}
 	userSocialTrend := &models.UserSocialTrend{}
@@ -32,7 +32,7 @@ func SaveUserBaseInfo(uid int, data *models.FormSaveUserInfo) error {
 	}
 	userSocialTrend.EnvTrend = tools.SwitchArrayToNum(data.Environment)
 	userSocialTrend.SocialTrend = tools.SwitchArrayToNum(data.Socialtendency)
-	if err := db.Model(userSocialTrend).Updates(*userSocialTrend).Error; err != nil {
+	if err := db.Model(userSocialTrend).Where("uid = ?", uid).Updates(*userSocialTrend).Error; err != nil {
 		return err
 	}
 	return nil
@@ -47,6 +47,7 @@ func AddUserIntreTag(data *models.UserIntreTag) (int, error) {
 	tag := &models.Tag{}
 	if db.Where("title = ?", data.TagTitle).First(tag).RowsAffected == 0 {
 		tag.Title = data.TagTitle
+		tag.CreatorId = data.Uid
 		if err := db.Create(tag).Error; err != nil {
 			return 0, err
 		}

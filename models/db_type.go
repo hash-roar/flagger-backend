@@ -45,15 +45,15 @@ type UserIntreTag struct {
 }
 
 type UserSocialTrend struct {
-	Uid         int `gorm:"primaryKey"`
+	Uid         int
 	EnvTrend    uint64
 	SocialTrend uint64
 }
 
 type FlaggerTag struct {
-	Fid        int `gorm:"primaryKey"`
-	Tid        int
-	CreateTime time.Time
+	gorm.Model
+	Fid int
+	Tid int
 }
 
 type Flagger struct {
