@@ -273,7 +273,6 @@ func MoreFlagger(c *gin.Context) {
 		tag, err := dbhandlers.GetTagTitleByFid(v.Id)
 		if err != nil {
 			log.Println(err)
-			continue
 		}
 		tempFindFlagger.Fid = v.Id
 		tempFindFlagger.TagTitle = tag
@@ -427,10 +426,6 @@ func getFlagInfoByFid(c *gin.Context) {
 	tag, err := dbhandlers.GetTagTitleByFid(flagger.Id)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusForbidden, gin.H{
-			"error": "服务端错误",
-		})
-		return
 	}
 	tempFindFlagger.Fid = flagger.Id
 	tempFindFlagger.TagTitle = tag
