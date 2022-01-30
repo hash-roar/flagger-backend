@@ -58,7 +58,7 @@ func AddUserIntreTag(data *models.UserIntreTag) (int, error) {
 
 func AddUserFlagger(uid int, fid int) (int, error) {
 	userFlagger := &models.UserFlagger{Uid: uid, Fid: fid,
-		FlagSum: 0, Status: 1, SequentialFlagTimes: 0, LastFlagTime: tools.GetYesterdayStartTime()}
+		FlagSum: 0, Status: 1, SequentialFlagTimes: 0}
 	result := db.Create(userFlagger)
 	return userFlagger.Id, result.Error
 }

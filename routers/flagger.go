@@ -274,10 +274,6 @@ func MoreFlagger(c *gin.Context) {
 		tag, err := dbhandlers.GetTagTitleByFid(v.Id)
 		if err != nil {
 			log.Println(err)
-			c.JSON(http.StatusForbidden, gin.H{
-				"error": "服务端错误",
-			})
-			return
 		}
 		tempFindFlagger.Fid = v.Id
 		tempFindFlagger.TagTitle = tag
