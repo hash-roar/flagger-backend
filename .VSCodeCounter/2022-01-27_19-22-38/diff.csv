@@ -1,9 +1,0 @@
-"filename", "language", "Go", "comment", "blank", "total"
-"d:\working\flagger-backend\dbhandlers\useraction.go", "Go", 22, 2, 3, 27
-"d:\working\flagger-backend\models\post_form_type.go", "Go", -2, 2, 0, 0
-"d:\working\flagger-backend\models\return_data_type.go", "Go", 0, 1, 0, 1
-"d:\working\flagger-backend\routers\auth.go", "Go", 24, 0, 1, 25
-"d:\working\flagger-backend\routers\flagger.go", "Go", 8, 0, -1, 7
-"d:\working\flagger-backend\routers\router.go", "Go", 1, 0, 0, 1
-"d:\working\flagger-backend\routers\user.go", "Go", 40, 0, -1, 39
-"Total", "-", 93, 5, 2, 100

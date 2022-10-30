@@ -1,0 +1,23 @@
+version: "3.10"
+services:
+
+  flagger-backend:
+    build: .
+    ports:
+      - 8080:80
+  
+  db:
+    image: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - db
+
+networks:
+  db:
+    external: true
+    name: db
+  
+  backend:
+    external: true
+    name: backend

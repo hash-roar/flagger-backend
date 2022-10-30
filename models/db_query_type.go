@@ -2,6 +2,8 @@ package models
 
 import "time"
 
+//TODO: combine tuple with crud operation
+
 type DoingFlaggersQuery struct {
 	Id            int
 	FlagSum       int
@@ -9,4 +11,3 @@ type DoingFlaggersQuery struct {
 	LastFlagTime  time.Time
 	ShouldFlagSum int
 }
-

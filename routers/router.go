@@ -23,7 +23,7 @@ func AuthMidware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Request.Header.Get("Authentication")
 		openidFromHeader := c.Request.Header.Get("X-WX-OPENID")
-		if openid, ok := authToken(token); ok == true && openid == openidFromHeader {
+		if openid, ok := authToken(token); ok && openid == openidFromHeader {
 			c.Next()
 		} else {
 			c.JSON(http.StatusForbidden, gin.H{"error": "认证失败"})

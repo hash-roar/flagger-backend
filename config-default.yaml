@@ -1,0 +1,15 @@
+app_base: 
+  appid: ""
+  app_secret: ""
+
+jwt_info:
+  jwt_sec: ""
+  jwt_maxage: 7 #days
+
+dsn: ""
+
+db: 
+  user: 
+  sec: 
+  host: 
+  dbname: 

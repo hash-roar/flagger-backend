@@ -11,6 +11,7 @@ import (
 
 var db *gorm.DB
 
+// TODO: migrate to mysql
 func init() {
 	dsn := appconfig.AppConfig.Dsn
 	dbTemp, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
